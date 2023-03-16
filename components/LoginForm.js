@@ -3,14 +3,14 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 
-const Login = () => {
+const LoginForm = () => {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
   const [data, setData] = useState();
 
   useEffect(() => {
     async function loadData() {
-      const { data } = await supabaseClient.from("test").select("*");
+      const { data } = await supabaseClient.from("profiles").select("*");
       setData(data);
     }
     if (user) loadData();
@@ -20,10 +20,24 @@ const Login = () => {
     return (
       <Auth
         redirectTo="http://localhost:3000/"
-        appearance={{ theme: ThemeSupa }}
+        appearance={{
+          theme: ThemeSupa,
+          variables: {
+            default: {
+              colors: {
+                brand: "#6851FF",
+                brandAccent: "#6851FF",
+              },
+              radii: {
+                borderRadiusButton: "18px",
+                inputBorderRadius: "10px",
+              },
+            },
+          },
+        }}
         supabaseClient={supabaseClient}
-        providers={["google", "github"]}
-        socialLayout="horizontal"
+        providers={["google", "github", "discord"]}
+        socialLayout="vertical"
       />
     );
 
@@ -38,4 +52,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;
