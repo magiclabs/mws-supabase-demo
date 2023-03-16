@@ -1,40 +1,14 @@
-import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-      const { data, error } = await supabase.auth.signInWithOtp({ email });
-      if (error) throw error;
-      alert("Check your email for the login link!");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <div>
-      {loading ? (
-        "Sending magic link..."
-      ) : (
-        <form onSubmit={handleLogin}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            placeholder="Your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit">Send magic link</button>
-        </form>
-      )}
+      <h1>Supabase with Magic Wallet Services</h1>
     </div>
   );
 }
